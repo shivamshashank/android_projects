@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="greetingtextview">GreetingTextView</string>
+    <string name="name">Name</string>
+    <string name="button">Button</string>
+    <string name="hello_name">Hello Name!</string>
+</resources>
