@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/subscribersListFragment">
+
+    <fragment
+        android:id="@+id/subscribersListFragment"
+        android:name="com.example.room1.view.SubscribersListFragment"
+        android:label="fragment_subscribers_list"
+        tools:layout="@layout/fragment_subscribers_list" >
+        <action
+            android:id="@+id/action_subscribersListFragment_to_addSubscriberFragment"
+            app:destination="@id/addSubscriberFragment" />
+        <action
+            android:id="@+id/action_subscribersListFragment_to_editSubscriberFragment"
+            app:destination="@id/editSubscriberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSubscriberFragment"
+        android:name="com.example.room1.view.AddSubscriberFragment"
+        android:label="fragment_add_subscriber"
+        tools:layout="@layout/fragment_add_subscriber" />
+    <fragment
+        android:id="@+id/editSubscriberFragment"
+        android:name="com.example.room1.view.EditSubscriberFragment"
+        android:label="fragment_edit_subscriber"
+        tools:layout="@layout/fragment_edit_subscriber" />
+</navigation>
