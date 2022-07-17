@@ -1,0 +1,10 @@
+package com.example.tmdb_client.domain.use_cases.artists
+
+import com.example.tmdb_client.data.models.artist.Artist
+import com.example.tmdb_client.domain.repository.ArtistRepository
+
+class GetArtistsListUseCase(private val artistRepository: ArtistRepository) {
+
+    suspend fun execute(): List<Artist>? = artistRepository.getArtistsList()
+
+}
