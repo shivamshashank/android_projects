@@ -12,79 +12,62 @@ import com.example.tmdb_client.presentation.di.Injector
 import javax.inject.Inject
 
 class MovieFragment : Fragment() {
-    private lateinit var binding: FragmentMovieBinding
+        private lateinit var binding: FragmentMovieBinding
 
-    @Inject
-    lateinit var movieViewModelFactory: MovieViewModelFactory
-    private lateinit var movieViewModel: MovieViewModel
+        @Inject
+        lateinit var movieViewModelFactory: MovieViewModelFactory
+        private lateinit var movieViewModel: MovieViewModel
 
-    private lateinit var movieAdapter: MovieAdapter
+        private lateinit var movieAdapter: MovieAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false)
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
+            // Inflate the layout for this fragment
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false)
 
-        setHasOptionsMenu(true)
+            (context!!.applicationContext as Injector).createMovieSubComponent().inject(this)
 
-        (context!!.applicationContext as Injector).createMovieSubComponent().inject(this)
+            movieViewModel =
+                ViewModelProvider(this, movieViewModelFactory)[MovieViewModel::class.java]
 
-        movieViewModel =
-            ViewModelProvider(this, movieViewModelFactory)[MovieViewModel::class.java]
+            initMoviesRecyclerView()
 
-        initMoviesRecyclerView()
+            binding.toolbar.setNavigationOnClickListener(View.OnClickListener { activity!!.onBackPressed() })
 
-        return binding.root
-    }
-
-    @Deprecated("No Idea")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.update_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Deprecated("No Idea")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_update -> {
-                updateMoviesList()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+            return binding.root
         }
-    }
 
-    private fun initMoviesRecyclerView() {
-        binding.apply {
-            moviesRecyclerView.layoutManager = LinearLayoutManager(context)
-            movieAdapter = MovieAdapter()
-            moviesRecyclerView.adapter = movieAdapter
-
-            displayMoviesList()
-        }
-    }
-
-    private fun displayMoviesList() {
-        val responseLiveData = movieViewModel.getMovies()
-        responseLiveData.observe(requireActivity()) {
+        private fun initMoviesRecyclerView() {
             binding.apply {
-                moviesLoader.visibility = View.GONE
+                moviesRecyclerView.layoutManager = LinearLayoutManager(context)
+                movieAdapter = MovieAdapter()
+                moviesRecyclerView.adapter = movieAdapter
 
-                if (it!!.isEmpty()) {
-                    noMoviesTextView.visibility = View.VISIBLE
-                    moviesRecyclerView.visibility = View.GONE
-                } else {
-                    noMoviesTextView.visibility = View.GONE
-                    moviesRecyclerView.visibility = View.VISIBLE
+                displayMoviesList()
+            }
+        }
 
-                    movieAdapter.setMoviesList(it)
-                    movieAdapter.notifyDataSetChanged()
+        private fun displayMoviesList() {
+            val responseLiveData = movieViewModel.getMovies()
+            responseLiveData.observe(requireActivity()) {
+                binding.apply {
+                    moviesLoader.visibility = View.GONE
+
+                    if (it!!.isEmpty()) {
+                        noMoviesTextView.visibility = View.VISIBLE
+                        moviesRecyclerView.visibility = View.GONE
+                    } else {
+                        noMoviesTextView.visibility = View.GONE
+                        moviesRecyclerView.visibility = View.VISIBLE
+
+                        movieAdapter.setMoviesList(it)
+                        movieAdapter.notifyDataSetChanged()
+                    }
                 }
             }
         }
-    }
 
     private fun updateMoviesList() {
         binding.apply {

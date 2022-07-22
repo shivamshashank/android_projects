@@ -3,35 +3,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.flexbox.FlexboxLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:alignItems="center"
-        app:flexDirection="column"
-        app:justifyContent="space_evenly"
-        tools:context=".presentation.HomeFragment">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/moviesButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:text="@string/movies" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-        <Button
-            android:id="@+id/tvShowsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:text="@string/tv_shows" />
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tmdb_client"
+                android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/artistsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:text="@string/artists" />
+        </androidx.appcompat.widget.Toolbar>
 
-    </com.google.android.flexbox.FlexboxLayout>
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:alignItems="center"
+            app:flexDirection="column"
+            app:justifyContent="space_evenly"
+            tools:context=".presentation.HomeFragment">
+
+            <Button
+                android:id="@+id/moviesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:text="@string/movies" />
+
+            <Button
+                android:id="@+id/tvShowsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:text="@string/tv_shows" />
+
+            <Button
+                android:id="@+id/artistsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:text="@string/artists" />
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </LinearLayout>
 
 </layout>
