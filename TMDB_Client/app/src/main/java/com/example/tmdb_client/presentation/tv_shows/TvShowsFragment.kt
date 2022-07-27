@@ -1,19 +1,15 @@
 package com.example.tmdb_client.presentation.tv_shows
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tmdb_client.R
-import com.example.tmdb_client.databinding.FragmentArtistBinding
 import com.example.tmdb_client.databinding.FragmentTvShowsBinding
-import com.example.tmdb_client.presentation.artist.ArtistAdapter
-import com.example.tmdb_client.presentation.artist.ArtistViewModel
-import com.example.tmdb_client.presentation.artist.ArtistViewModelFactory
 import com.example.tmdb_client.presentation.di.Injector
 import javax.inject.Inject
 
@@ -24,7 +20,7 @@ class TvShowsFragment : Fragment() {
     lateinit var tvShowsViewModelFactory: TvShowsViewModelFactory
     private lateinit var tvShowViewModel: TvShowsViewModel
 
-    private lateinit var tvShowAdapter: ArtistAdapter
+    private lateinit var tvShowAdapter: TvShowAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,61 +29,46 @@ class TvShowsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_shows, container, false)
 
-//        (context!!.applicationContext as Injector).createTvShowsSubComponent().inject(this)
+        (context!!.applicationContext as Injector).createTvShowsSubComponent().inject(this)
 
-//        tvShowViewModel =
-//            ViewModelProvider(this, tvShowViewModel)[TvShowsViewModel::class.java]
+        tvShowViewModel =
+            ViewModelProvider(this, tvShowsViewModelFactory)[TvShowsViewModel::class.java]
 
         initTvShowsRecyclerView()
+
+        binding.toolbar.setNavigationOnClickListener(View.OnClickListener { activity!!.onBackPressed() })
 
         return binding.root
     }
 
-//    @Deprecated("No Idea")
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.update_menu, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-
-//    @Deprecated("No Idea")
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.action_update -> {
-//                updateMoviesList()
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-
     private fun initTvShowsRecyclerView() {
-//        binding.apply {
-//            .layoutManager = LinearLayoutManager(context)
-//            artistAdapter = ArtistAdapter()
-//            artistsRecyclerView.adapter = artistAdapter
-//
-//            displayArtistsList()
-//        }
+        binding.apply {
+            tvShowsRecyclerView.layoutManager = LinearLayoutManager(context)
+            tvShowAdapter = TvShowAdapter()
+            tvShowsRecyclerView.adapter = tvShowAdapter
+
+            displayTvShowsList()
+        }
     }
 
-    private fun displayArtistsList() {
-//        val responseLiveData = artistViewModel.getArtists()
-//        responseLiveData.observe(requireActivity()) {
-//            binding.apply {
-//                artistsLoader.visibility = View.GONE
-//
-//                if (it!!.isEmpty()) {
-//                    noArtistsTextView.visibility = View.VISIBLE
-//                    artistsRecyclerView.visibility = View.GONE
-//                } else {
-//                    noArtistsTextView.visibility = View.GONE
-//                    artistsRecyclerView.visibility = View.VISIBLE
-//
-//                    artistAdapter.setArtistsList(it)
-//                    artistAdapter.notifyDataSetChanged()
-//                }
-//            }
-//        }
+    private fun displayTvShowsList() {
+        val responseLiveData = tvShowViewModel.getTvShows()
+        responseLiveData.observe(requireActivity()) {
+            binding.apply {
+                tvShowsLoader.visibility = View.GONE
+
+                if (it!!.isEmpty()) {
+                    noTvShowsTextView.visibility = View.VISIBLE
+                    tvShowsRecyclerView.visibility = View.GONE
+                } else {
+                    noTvShowsTextView.visibility = View.GONE
+                    tvShowsRecyclerView.visibility = View.VISIBLE
+
+                    tvShowAdapter.setTvShowsList(it)
+                    tvShowAdapter.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
 }

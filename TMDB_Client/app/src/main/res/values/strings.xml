@@ -12,4 +12,5 @@
     <string name="update">Update</string>
     <string name="no_artists_present">No Artists Present</string>
     <string name="tmdb_client">TMDB Client</string>
+    <string name="no_tv_shows_present">No Tv Shows Present</string>
 </resources>

@@ -41,23 +41,6 @@ class ArtistFragment : Fragment() {
         return binding.root
     }
 
-//    @Deprecated("No Idea")
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.update_menu, menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Deprecated("No Idea")
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.action_update -> {
-//                updateMoviesList()
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-
     private fun initArtistsRecyclerView() {
         binding.apply {
             artistsRecyclerView.layoutManager = LinearLayoutManager(context)

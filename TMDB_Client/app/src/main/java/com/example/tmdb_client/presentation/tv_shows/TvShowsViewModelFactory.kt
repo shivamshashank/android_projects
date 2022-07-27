@@ -2,8 +2,6 @@ package com.example.tmdb_client.presentation.tv_shows
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.tmdb_client.domain.use_cases.movies.GetMoviesListUseCase
-import com.example.tmdb_client.domain.use_cases.movies.UpdateMoviesListUseCase
 import com.example.tmdb_client.domain.use_cases.tv_shows.GetTvShowsListUseCase
 
 class TvShowsViewModelFactory(

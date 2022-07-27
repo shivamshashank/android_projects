@@ -1,10 +1,8 @@
 package com.example.tmdb_client.presentation.di.tv_show
 
-import com.example.tmdb_client.domain.use_cases.movies.GetMoviesListUseCase
-import com.example.tmdb_client.domain.use_cases.movies.UpdateMoviesListUseCase
 import com.example.tmdb_client.domain.use_cases.tv_shows.GetTvShowsListUseCase
-import com.example.tmdb_client.presentation.movie.MovieViewModelFactory
 import com.example.tmdb_client.presentation.tv_shows.TvShowsViewModel
+import com.example.tmdb_client.presentation.tv_shows.TvShowsViewModelFactory
 import dagger.Module
 import dagger.Provides
 
@@ -14,8 +12,8 @@ class TvShowModule {
     @Provides
     fun provideTvShowViewModelFactory(
         getTvShowsListUseCase: GetTvShowsListUseCase,
-    ): TvShowsViewModel {
-        return TvShowsViewModel(
+    ): TvShowsViewModelFactory {
+        return TvShowsViewModelFactory(
             getTvShowsListUseCase
         )
     }

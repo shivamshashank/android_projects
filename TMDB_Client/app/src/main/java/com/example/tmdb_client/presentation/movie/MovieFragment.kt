@@ -12,71 +12,47 @@ import com.example.tmdb_client.presentation.di.Injector
 import javax.inject.Inject
 
 class MovieFragment : Fragment() {
-        private lateinit var binding: FragmentMovieBinding
+    private lateinit var binding: FragmentMovieBinding
 
-        @Inject
-        lateinit var movieViewModelFactory: MovieViewModelFactory
-        private lateinit var movieViewModel: MovieViewModel
+    @Inject
+    lateinit var movieViewModelFactory: MovieViewModelFactory
+    private lateinit var movieViewModel: MovieViewModel
 
-        private lateinit var movieAdapter: MovieAdapter
+    private lateinit var movieAdapter: MovieAdapter
 
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View {
-            // Inflate the layout for this fragment
-            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false)
 
-            (context!!.applicationContext as Injector).createMovieSubComponent().inject(this)
+        (context!!.applicationContext as Injector).createMovieSubComponent().inject(this)
 
-            movieViewModel =
-                ViewModelProvider(this, movieViewModelFactory)[MovieViewModel::class.java]
+        movieViewModel =
+            ViewModelProvider(this, movieViewModelFactory)[MovieViewModel::class.java]
 
-            initMoviesRecyclerView()
+        initMoviesRecyclerView()
 
-            binding.toolbar.setNavigationOnClickListener(View.OnClickListener { activity!!.onBackPressed() })
+        binding.toolbar.setNavigationOnClickListener(View.OnClickListener { activity!!.onBackPressed() })
 
-            return binding.root
-        }
+        return binding.root
+    }
 
-        private fun initMoviesRecyclerView() {
-            binding.apply {
-                moviesRecyclerView.layoutManager = LinearLayoutManager(context)
-                movieAdapter = MovieAdapter()
-                moviesRecyclerView.adapter = movieAdapter
-
-                displayMoviesList()
-            }
-        }
-
-        private fun displayMoviesList() {
-            val responseLiveData = movieViewModel.getMovies()
-            responseLiveData.observe(requireActivity()) {
-                binding.apply {
-                    moviesLoader.visibility = View.GONE
-
-                    if (it!!.isEmpty()) {
-                        noMoviesTextView.visibility = View.VISIBLE
-                        moviesRecyclerView.visibility = View.GONE
-                    } else {
-                        noMoviesTextView.visibility = View.GONE
-                        moviesRecyclerView.visibility = View.VISIBLE
-
-                        movieAdapter.setMoviesList(it)
-                        movieAdapter.notifyDataSetChanged()
-                    }
-                }
-            }
-        }
-
-    private fun updateMoviesList() {
+    private fun initMoviesRecyclerView() {
         binding.apply {
-            moviesLoader.visibility = View.VISIBLE
-            moviesRecyclerView.visibility = View.GONE
-            noMoviesTextView.visibility = View.GONE
+            moviesRecyclerView.layoutManager = LinearLayoutManager(context)
+            movieAdapter = MovieAdapter()
+            moviesRecyclerView.adapter = movieAdapter
 
-            val responseLiveData = movieViewModel.updateMovies()
-            responseLiveData.observe(requireActivity()) {
+            displayMoviesList()
+        }
+    }
+
+    private fun displayMoviesList() {
+        val responseLiveData = movieViewModel.getMovies()
+        responseLiveData.observe(requireActivity()) {
+            binding.apply {
                 moviesLoader.visibility = View.GONE
 
                 if (it!!.isEmpty()) {
@@ -92,5 +68,29 @@ class MovieFragment : Fragment() {
             }
         }
     }
+
+//    private fun updateMoviesList() {
+//        binding.apply {
+//            moviesLoader.visibility = View.VISIBLE
+//            moviesRecyclerView.visibility = View.GONE
+//            noMoviesTextView.visibility = View.GONE
+//
+//            val responseLiveData = movieViewModel.updateMovies()
+//            responseLiveData.observe(requireActivity()) {
+//                moviesLoader.visibility = View.GONE
+//
+//                if (it!!.isEmpty()) {
+//                    noMoviesTextView.visibility = View.VISIBLE
+//                    moviesRecyclerView.visibility = View.GONE
+//                } else {
+//                    noMoviesTextView.visibility = View.GONE
+//                    moviesRecyclerView.visibility = View.VISIBLE
+//
+//                    movieAdapter.setMoviesList(it)
+//                    movieAdapter.notifyDataSetChanged()
+//                }
+//            }
+//        }
+//    }
 
 }
